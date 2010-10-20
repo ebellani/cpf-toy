@@ -41,32 +41,9 @@ desses dados e atualize o(s) repositório(s) com essas informações.
 
 ;; CSV sample -> http://online.wsj.com/public/resources/documents/NYSE.csv
 
-
-
 (require net/url
          net/ftp
-         srfi/19)
-
-(define-struct person (cpf name birth-date))
-
-(require (planet neil/csv:1:6))
-
-(define (read-text-file-from-input-port input-port)
-  (let* ([line (read-line input-port)])
-    (if (not (eof-object? line))
-        (string-append line (read-text-file-from-input-port input-port))
-        "")))
-
-;(define cpf-csv-reader
-;  (make-csv-reader
-;   '((separator-chars #\,)
-;     (strip-leading-whitespace?  . #t)
-;     (strip-trailing-whitespace? . #t))))
-
-;; csv-date->date -> string -> date
-;; Formats the CSV date day/month/year into a date struct.
-(define (csv-date->date csv-date)
-  (string->date csv-date "~d/~m/~Y"))
+         cpf)
 
 ;(call/input-url (string->url "http://online.wsj.com/public/resources/documents/NYSE.csv")
 ;                get-pure-port
@@ -74,5 +51,3 @@ desses dados e atualize o(s) repositório(s) com essas informações.
 ;                  (read-text-file-from-input-port ip)
 ;                  "ok"))
 
-(provide read-text-file-from-input-port
-         csv-date->date)

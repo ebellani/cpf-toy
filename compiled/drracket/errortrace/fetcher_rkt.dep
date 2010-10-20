@@ -1,1 +1,0 @@
-("5.0.1" ("622bd3674e522c2d12bc94e56629906bae040f6c" . "f1d18bf9b4b3c4a99bb62e3845d6b80cc05597fb") (collects #"errortrace" #"errortrace-key.rkt") (collects #"racket" #"main.rkt") (collects #"net" #"url.rkt") (collects #"net" #"ftp.rkt") (collects #"srfi" #"19.rkt") #"/home/b-man/.racket/planet/300/5.0.1/cache/neil/csv.plt/1/6/main.rkt" (collects #"racket" #"lang" #"reader.rkt"))
