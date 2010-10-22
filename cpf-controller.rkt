@@ -43,11 +43,19 @@ desses dados e atualize o(s) repositório(s) com essas informações.
 
 (require net/url
          net/ftp
-         cpf)
+         "cpf.rkt")
 
-;(call/input-url (string->url "http://online.wsj.com/public/resources/documents/NYSE.csv")
-;                get-pure-port
-;                (λ (ip)
-;                  (read-text-file-from-input-port ip)
-;                  "ok"))
+(define (read-text-file-from-input-port input-port)
+  (let* ([line (read-line input-port)])
+    (if (not (eof-object? line))
+        (string-append line (read-text-file-from-input-port input-port))
+        "")))
+
+(call/input-url (string->url "http://online.wsj.com/public/resources/documents/NYSE.csv")
+                get-pure-port
+                (λ (ip)
+                  (read-text-file-from-input-port ip)
+                  "ok"))
+
+
 
