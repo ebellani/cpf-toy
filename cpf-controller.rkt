@@ -45,17 +45,33 @@ desses dados e atualize o(s) repositório(s) com essas informações.
          net/ftp
          "cpf.rkt")
 
-(define (read-text-file-from-input-port input-port)
-  (let* ([line (read-line input-port)])
-    (if (not (eof-object? line))
-        (string-append line (read-text-file-from-input-port input-port))
-        "")))
-
-(call/input-url (string->url "http://online.wsj.com/public/resources/documents/NYSE.csv")
-                get-pure-port
-                (λ (ip)
-                  (read-text-file-from-input-port ip)
-                  "ok"))
+;; input-from-http : string -> input-port
+;; uses a GET call to fetch the input port from a given address.
+(define (input-from-http the-url)
+  (call/input-url (string->url the-url)
+                  get-pure-port
+                  (λ (input-port)
+                    input-port)))
 
 
+;; input-from-ftp : string string string -> input-port
+;; fetch the input port from a given FTP address.
+(define (input-from-ftp the-url the-directory the-file)
+  (let ([ftp-connection
+         (ftp-establish-connection the-url 21 "anonymous" "")])
+    (begin
+      (unless (equal? the-directory "")
+        (ftp-cd ftp-connection the-directory))
+      (ftp-download-file ftp-connection (current-directory) the-file)
+      (open-input-file (string->path the-file)))))
 
+;(input-from-http
+; "http://online.wsj.com/public/resources/documents/NYSE.csv")
+
+;(input-from-ftp "ftp.kernel.org" "" "welcome.msg")
+
+(save-people! (input-from-ftp "ftp.receitafederal.aaa.br"
+                              ""
+                              "cadastros_pf.csv"))
+
+(save-people! (input-from-http "http://receitafederal.aaa.br/cadastros/pf"))

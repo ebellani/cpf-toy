@@ -14,7 +14,7 @@
 (check-equal? (csv-date->date "01/02/1990")
               (make-date 0 0 0 0 1 2 1990 -7200))
 
-(check-equal? (csv->people
+(check-equal? (input-port->people
                (open-input-string
                 "12345678901,fulano da silva,01/02/1990
                  09876543210,cicrano dos santos,01/09/1980"))
@@ -29,7 +29,7 @@
 
 
 (check-equal? (people->insert-query people)
-              "INSERT INTO people (cpf,name,birth-date) VALUES ('12345678901', 'fulano da silva', '1990-02-01 00:00:00'),('09876543210', 'cicrano dos santos', '1980-09-01 00:00:00');")
+              "INSERT INTO people (cpf,name,birthdate) VALUES ('12345678901', 'fulano da silva', '1990-02-01 00:00:00'),('09876543210', 'cicrano dos santos', '1980-09-01 00:00:00');")
 
 (check-equal?
  (person->url-parameters
@@ -39,3 +39,5 @@
  #"cpf=09876543210;name=cicrano dos santos;birth-date='1980-09-01'")
 
 
+;(insert-into-db! people)
+(insert-into-web! people)
